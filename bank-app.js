@@ -12,8 +12,11 @@ export class BankAccount {
   withdraw(amount) {
     if (amount <= this.balance) {
       this.balance -= amount;
+      return true;
     } else {
       alert("Insufficient funds.");
+      console.log("Attempted to withdraw funds exceeding account balance.");
+      return false;
     }
   }
 }

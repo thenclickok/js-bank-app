@@ -15,6 +15,7 @@ document.getElementById("account-number").textContent = account1.accountNumber;
 const checkButton = document.getElementById("check-balance");
 checkButton.addEventListener("click", () => {
   document.getElementById("balance").textContent = `£${account1.balance}`;
+  console.log("User's balance is displayed in the web page.");
 });
 
 /*when user enters number into deposit field and hits submit 
@@ -27,18 +28,31 @@ depositSubmit.addEventListener("click", () => {
     account1.deposit(amount);
     document.getElementById("balance").textContent = `£${account1.balance}`;
     document.getElementById("message").textContent = `Deposited: £${amount}`;
+    console.log("User has made a deposit.");
   }
 });
 
 /*when user enters number into withdrawal field and hits submit 
-it subtracts this number from balance and updates balance*/
+it subtracts this number from balance and updates balance if there 
+were sufficient funds to make the withdrawal*/
 
 const withdrawalSubmit = document.getElementById("withdrawal-submit");
 withdrawalSubmit.addEventListener("click", () => {
   const amount = Number(document.getElementById("withdrawal-input").value);
   if (amount > 0) {
-    account1.withdraw(amount);
-    document.getElementById("balance").textContent = `£${account1.balance}`;
-    document.getElementById("message").textContent = `Withdrew: £${amount}`;
+    const success = account1.withdraw(amount);
+    if (success) {
+      document.getElementById("balance").textContent = `£${account1.balance}`;
+      document.getElementById("message").textContent = `Withdrew: £${amount}`;
+      console.log("User has made a withdrawal.");
+    } else {
+      /*if there were insufficient funds, the message below will inform user and 
+    it will be logged to the console*/
+      document.getElementById("message").textContent =
+        "Transaction failed due to insufficient funds.";
+      console.log(
+        "User informed that withdrawal failed due to insufficient funds.",
+      );
+    }
   }
 });
